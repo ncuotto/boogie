@@ -3,31 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Dance Recognition</title>
-    <script  src="lib/p5.min.js"></script>
-    
+    <script src="lib/p5.min.js"></script>
+    <script src="lib/p5.dom.js"></script>
+    <!--script src="capture.js"></script-->
+    <script src="dance-processing.js"></script>
+
 </head>
-<body onload="video()">
+<body>
 
 <h1>Processing.js Test</h1>
-<canvas id="processing-canvas" width="400" height="250">
-<script type="text/javascript">
- function video(){
- var capture;
-
-function setup() {
-  createCanvas(390, 240);
-  capture = createCapture(VIDEO);
-  capture.size(320, 240);
-  //capture.hide();
-}
-
-function draw() {
-  background(255);
-  image(capture, 0, 0, 320, 240);
-  filter('INVERT');}
-}</script>
-
- </canvas>
+<canvas id="processing-canvas" width="400" height="250"></canvas>
 
       <p>Dance Recognition: Start Dancing</p>
      </body>

@@ -44,7 +44,7 @@ function draw() {
   }
 
   // Add counts to sliding window
-  counts_window.push([time, counts]);
+  counts_window.push([n, counts]);
 
   // Remove counts older than 5 seconds
   for(var i = counts_window.length-1; i >= 0 ; i--){
