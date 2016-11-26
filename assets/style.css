@@ -11,7 +11,9 @@ div {
   font-size: 100px;
     font-style: white;
 
-    
+    background-image: url(/assets/grid.png);
+    background-repeat: repeat;
+    opacity: 20%;
 }
 
 video { 
