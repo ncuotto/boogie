@@ -48,8 +48,8 @@ function draw() {
 
   // Remove counts older than 5 seconds
   for(var i = counts_window.length-1; i >= 0 ; i--){
-    if(n - elements[i][0] > 5000) {
-      elements.splice(i, 1);
+    if(n - counts_window[i][0] > 5000) {
+      counts_window.splice(i, 1);
     }
   }
 
