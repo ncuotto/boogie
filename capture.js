@@ -115,12 +115,17 @@ function draw() {
     counts_window.push([n, max_x]);
   }
 
+  // Plot movements
   var movements = blurMovements(7, counts_window);
   movements = discretizeMovements(15, movements);
+  var movValues = movements.map(function(val) {return val[1]});
+  var min = Math.min.apply(null, movValues);
+  var max = Math.max.apply(null, movValues);
+  var normalizedMov = normalize(movValues, max, min);
 
-  for(var i = 0; i < movements.length; i++) {
+  for(var i = 0; i < normalizedMov.length; i++) {
     fill(255, 0, 0);
-    ellipse(i, height-movements[i][1], 5, 5, 1);
+    ellipse(i, height - height*0.25 - normalizedMov[i]*height/2, 5, 5, 1);
   }
 
   // Remove counts older than 5 seconds
@@ -132,18 +137,33 @@ function draw() {
 
 
   // Display maximums
+  plotMaximums(max, min, counts_window);
+
+  // Every now and then we should pass this to the function that detects BPM
+  movementsListener(counts_window);
+}
+
+function plotMaximums(max, min, counts_window) {
+  // Display maximums
   var countsTemp = [];
   for(var i = 0; i < counts_window.length; i++) {
     countsTemp.push([i, counts_window[i][1]]);
   }
   var beats = calculateBeats(countsTemp);
   if(!beats) return;
+  var normalizedBeats = normalize(beats.max.map(function(val) {return val[1]}), max, min);
   for(var i = 0; i < beats.max.length; i++) {
     fill(0, 255, 0);
-    ellipse(beats.max[i][0], height-beats.max[i][1], 10, 10, 1);
+    ellipse(beats.max[i][0], height - height*0.25 - height*normalizedBeats[i]/2, 10, 10, 1);
   }
+}
 
+function normalize(vals, max, min) {
+  var _min = min || Math.min.apply(null, vals);
+  var _max = max || Math.max.apply(null, vals);
 
-  // Every now and then we should pass this to the function that detects BPM
-  movementsListener(counts_window);
+  return vals.map(function(val){
+    return (val-_min)/(_max-_min)
+  });
+
 }
