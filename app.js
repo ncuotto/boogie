@@ -4,7 +4,7 @@ var slidingWindowSizeTime = 5000; // 5 seconds
 var BPM_avg = 0;
 var constant_BPM_time = 0;
 var song_playing = false;
-var audio;
+var audio = null;
 
 $(document).ready(function() {
 
@@ -49,8 +49,8 @@ $(document).ready(function() {
     if (constant_BPM_time == 0 || bpm_change > 20 || newBpm < 15 || newBpm == null) {
       // BPM changed, reset last constant BPM time
       constant_BPM_time = n;
-      if (song_playing) {
-        audio.stop();
+      if (audio && song_playing) {
+        audio.pause();
         song_playing = false;
       }
     }
