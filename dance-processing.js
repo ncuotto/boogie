@@ -1,5 +1,8 @@
 function calculateBeats(movements) {
 
+	movements = blurMovements(7, movements);
+	movements = discretizeMovements(15, movements);
+
 	if(movements.length < 50) return;
 
 	var maxim = [];
@@ -15,12 +18,12 @@ function calculateBeats(movements) {
 
 		var diff = position - prev_position;
 
-		if(diff > 0 && direction == -1) {
+		if(diff > 5 && direction == -1) {
 			direction = 1;
-			minim.push(prev_time + (time - prev_time) /2 );
-		} else if(diff < 0 && direction == 1) {
+			minim.push([prev_time, prev_position ]);
+		} else if(diff < -5 && direction == 1) {
 			direction = -1;
-			maxim.push(prev_time + (time - prev_time) /2 );
+			maxim.push([prev_time, prev_position]);
 		}
 
 		prev_position = position;
@@ -35,11 +38,32 @@ function calculateBeats(movements) {
 
 }
 
+function blurMovements(averageCount, movements) {
+	var newMovements = [];
+	for(var i = 0; i < movements.length - averageCount; i++) {
+		var valueSum = 0;
+		var timeSum = 0;
+		for(var of = 0; of < averageCount; of++) {
+			timeSum += movements[i+of][0];
+			valueSum += movements[i+of][1];
+		}
+		newMovements.push([timeSum/averageCount, valueSum/averageCount])
+	}
+
+	return newMovements;
+}
+
+function discretizeMovements(bucketSize, movements) {
+	var newMovements = [];
+	for(var i = 0; i < movements.length; i++) {
+		newMovements.push([movements[i][0], Math.floor(movements[i][1]/bucketSize)*bucketSize])
+	}
+	return newMovements;
+}
+
 function getBpm(movements) {
 	var beats = calculateBeats(movements);
-	console.log(beats);
 	if(!beats || beats.max.length < 2) return;
-	//if(Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60000).isNaN()) debugger;
-	return Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60000);
+	return 2 * beats.max.length / (slidingWindowSizeTime/ 60000);
 
 }

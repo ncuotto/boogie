@@ -1,4 +1,5 @@
 var onMovement = null;
+var slidingWindowSizeTime = 5000; // 5 seconds
 $(document).ready(function() {
 
 	var spotifyApi = new SpotifyWebApi();

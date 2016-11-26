@@ -2,7 +2,7 @@
 //
 // SETTINGS
 // Threshold (80-255):
-var threshold = 0.2;
+var threshold = 150;
 
 var capture;
 var width, height;
@@ -61,18 +61,18 @@ function draw() {
       //var r = abs(pixels[i] - background_pixels[i]);
       //var g = abs(pixels[i+1] - background_pixels[i + 1]);
       //var b = abs(pixels[i+2] - background_pixels[i + 2]);
-      var r = capture.pixels[i] - background_pixels[i];
-      var g = capture.pixels[i+1] - background_pixels[i + 1];
-      var b = capture.pixels[i+2] - background_pixels[i + 2];
+      var r = Math.abs(capture.pixels[i] - background_pixels[i]);
+      var g = Math.abs(capture.pixels[i+1] - background_pixels[i + 1]);
+      var b = Math.abs(capture.pixels[i+2] - background_pixels[i + 2]);
 
-      var d=sqrt(r^2+g^2+b^2)
-      var p=d/sqrt((255)^2+(255)^2+(255)^2)
+      //var d=sqrt(r^2+g^2+b^2)
+      //var p=d/sqrt((255)^2+(255)^2+(255)^2)
 
       //console.log(r, g, b);
       //pixels[0] = 0;
 
       // Count the dark pixels for each column
-      if ((p > threshold))
+      if ((r+g+b > threshold))
         counts[x]++;
       // if ((r-r_avgs > threshold && g-g_avgs > threshold & b-b_avgs > threshold))
     }
@@ -115,17 +115,34 @@ function draw() {
     counts_window.push([n, max_x]);
   }
 
-  for(var i = 0; i < counts_window.length; i++) {
+  var movements = blurMovements(7, counts_window);
+  movements = discretizeMovements(15, movements);
+
+  for(var i = 0; i < movements.length; i++) {
     fill(255, 0, 0);
-    ellipse(i, counts_window[i][1], 5, 5, 1);
+    ellipse(i, height-movements[i][1], 5, 5, 1);
   }
 
   // Remove counts older than 5 seconds
   for(var i = counts_window.length-1; i >= 0 ; i--){
-    if(n - counts_window[i][0] > 5000) {
+    if(n - counts_window[i][0] > slidingWindowSizeTime) {
       counts_window.splice(i, 1);
     }
   }
+
+
+  // Display maximums
+  var countsTemp = [];
+  for(var i = 0; i < counts_window.length; i++) {
+    countsTemp.push([i, counts_window[i][1]]);
+  }
+  var beats = calculateBeats(countsTemp);
+  if(!beats) return;
+  for(var i = 0; i < beats.max.length; i++) {
+    fill(0, 255, 0);
+    ellipse(beats.max[i][0], height-beats.max[i][1], 10, 10, 1);
+  }
+
 
   // Every now and then we should pass this to the function that detects BPM
   movementsListener(counts_window);
