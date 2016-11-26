@@ -1,3 +1,4 @@
+var onMovement = null;
 $(document).ready(function() {
 
 	var spotifyApi = new SpotifyWebApi();
@@ -31,21 +32,20 @@ $(document).ready(function() {
 
 	}
 
-	function onMovement() {
+	onMovement = function onMovement(movements) {
 
-		spotifyApi.getRecommendations({
+		var newBpm = getBpm(movements);
+
+		console.log(newBpm);
+
+		/*spotifyApi.getRecommendations({
 			"seed_genres": ["dance"],
 			"tempo": 120.0
 		}).then(function(data) {
 			console.log('Recommendations', data);
-		});
+		});*/
 
 	}
-
-	/*function getAverageBpm() {
-		var maxValues = 10;
-		var
-	}*/
 
 
 });

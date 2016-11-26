@@ -110,4 +110,5 @@ function draw() {
   }
 
   // Every now and then we should pass this to the function that detects BPM
+  movementsListener(counts_window);
 }

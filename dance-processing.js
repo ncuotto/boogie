@@ -35,6 +35,6 @@ function calculateBeats(movements) {
 
 function getBpm(movements) {
 	var beats = calculateBeats(movements);
-	return Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60);
+	return Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60000);
 
 }
