@@ -28,8 +28,6 @@ $(document).ready(function() {
 		spotifyApi.setAccessToken(access_token);
 		spotifyApi.setPromiseImplementation(Promise);
 
-		// Start capturing movements
-		new CaptureMovements(onMovement);
 
 	}
 
@@ -51,3 +49,7 @@ $(document).ready(function() {
 
 
 });
+
+function movementsListener(movements) {
+	if(typeof onMovement === 'function') onMovement(movements);
+}
