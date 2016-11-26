@@ -2,11 +2,13 @@ $(document).ready(function() {
 
 	var spotifyApi = new SpotifyWebApi();
 	var app_id = "459c7d640c8d4857a93cca27b7e7a6d1";
-	var uri = encodeURIComponent("http://localhost/greenheart");
+	var bpmChangeThresholdPercentage = 10;
+
 
 	var indexCode = document.location.href.indexOf("access_token=");
 
 	if(!sessionStorage.getItem('spotify_token') && indexCode === -1) {
+		var uri = encodeURIComponent(document.location.protocol + "//" + document.location.host + document.location.pathname);
 		document.location="https://accounts.spotify.com/authorize?client_id="+app_id+"&response_type=token&redirect_uri=" + uri;
 
 	} else if(!sessionStorage.getItem('spotify_token') && indexCode !== -1) {
@@ -19,25 +21,33 @@ $(document).ready(function() {
 		launchApp(sessionStorage.getItem('spotify_token'));
 	}
 
-function launchApp(access_token) {
+	function launchApp(access_token) {
 
-	console.log(access_token );
-	//use result.access_token in your API request
-	//or use result.get|post|put|del|patch|me methods (see below)
+		console.log(access_token);
 
-	spotifyApi.setAccessToken(access_token);
+		spotifyApi.setAccessToken(access_token);
+		spotifyApi.setPromiseImplementation(Promise);
 
-	spotifyApi.setPromiseImplementation(Promise);
+		// Start capturing movements
+		new CaptureMovements(onMovement);
 
-	spotifyApi.getRecommendations({
-		"seed_genres": ["dance"],
-		"tempo": 120.0
-	}).then(function(data) {
-		console.log('Recommendations', data);
-	});
-}
+	}
 
+	function onMovement() {
 
+		spotifyApi.getRecommendations({
+			"seed_genres": ["dance"],
+			"tempo": 120.0
+		}).then(function(data) {
+			console.log('Recommendations', data);
+		});
+
+	}
+
+	/*function getAverageBpm() {
+		var maxValues = 10;
+		var
+	}*/
 
 
 });
