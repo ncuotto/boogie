@@ -2,20 +2,18 @@
 //
 // SETTINGS
 // Threshold (80-255):
-var threshold = 100;
+var threshold = 20;
 
 var capture;
 var width, height;
 
+var r_avgs = 0;
+var g_avgs = 0;
+var b_avgs = 0;
+
 var counts_window = [];
 
-Array.prototype.max = function() {
-  return Math.max.apply(null, this);
-};
-
-Array.prototype.min = function() {
-  return Math.min.apply(null, this);
-};
+var background_pixels = [];
 
 function setup() {
   width = 320;
@@ -30,6 +28,15 @@ function draw() {
   image(capture, 0, 0, 320, 240);
   capture.loadPixels();
 
+  // When pixels are defined load background
+  if (background_pixels.length == 0 && capture.pixels[0] > 0) {
+    var d = pixelDensity();
+    var max_i = 4 * (width * d) * (height * d);
+    for (var i = 0; i < max_i; i++) {
+      background_pixels.push(capture.pixels[i]);
+    }
+  }
+
   // Get the time in ms since 1970/01/01
   var d = new Date();
   var n = d.getTime();
@@ -40,15 +47,26 @@ function draw() {
     counts[x] = 0;
   }
 
-  // Count the dark pixels for each column
+
+  // Loop through all the pixels
   for (var x = 0; x < width; x++) {
     for (var y = 0; y < height; y++) {
       var i = y * width*4 + x *4;
-      var r = capture.pixels[i];
-      var g = capture.pixels[i+1];
-      var b = capture.pixels[i+2];
-      if (!(r > threshold && g > threshold & b > threshold))
+
+      //var r = abs(pixels[i] - background_pixels[i]);
+      //var g = abs(pixels[i+1] - background_pixels[i + 1]);
+      //var b = abs(pixels[i+2] - background_pixels[i + 2]);
+      var r = abs(capture.pixels[i] - background_pixels[i]);
+      var g = abs(capture.pixels[i+1] - background_pixels[i + 1]);
+      var b = abs(capture.pixels[i+2] - background_pixels[i + 2]);
+
+      //console.log(r, g, b);
+      //pixels[0] = 0;
+
+      // Count the dark pixels for each column
+      if ((r > threshold && g > threshold & b > threshold))
         counts[x]++;
+      // if ((r-r_avgs > threshold && g-g_avgs > threshold & b-b_avgs > threshold))
     }
   }
 
@@ -58,7 +76,8 @@ function draw() {
     // HAHA, it's a hackaton, no rules!
     average_counts[x] = 0;
     for(var w = -10; w < 10; w++) {
-      average_counts[x] += counts[x+w];
+      if (x+w >= 0 && x+w < width)
+        average_counts[x] += counts[x+w];
     }
     average_counts[x] /= 21;
   }
