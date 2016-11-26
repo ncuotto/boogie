@@ -2,7 +2,7 @@
 //
 // SETTINGS
 // Threshold (80-255):
-var threshold = 20;
+var threshold = 30;
 
 var capture;
 var width, height;
@@ -75,11 +75,11 @@ function draw() {
   for (var x = 0; x < width; x++) {
     // HAHA, it's a hackaton, no rules!
     average_counts[x] = 0;
-    for(var w = -10; w < 10; w++) {
+    for(var w = -20; w < 20; w++) {
       if (x+w >= 0 && x+w < width)
         average_counts[x] += counts[x+w];
     }
-    average_counts[x] /= 21;
+    average_counts[x] /= 41;
   }
 
   // Debug, plot the histogram
