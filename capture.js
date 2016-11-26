@@ -2,7 +2,7 @@
 //
 // SETTINGS
 // Threshold (80-255):
-var threshold = 30;
+var threshold = 0.2;
 
 var capture;
 var width, height;
@@ -23,11 +23,9 @@ function setup() {
   capture.size(width, height);
 }
 
-function draw() {
-  background(255);
-  image(capture, 0, 0, 320, 240);
-  capture.loadPixels();
-
+function mousePressed()
+{
+  background_pixels = []
   // When pixels are defined load background
   if (background_pixels.length == 0 && capture.pixels[0] > 0) {
     var d = pixelDensity();
@@ -36,6 +34,13 @@ function draw() {
       background_pixels.push(capture.pixels[i]);
     }
   }
+  console.log('Reset background')
+}
+
+function draw() {
+  background(255);
+  image(capture, 0, 0, 320, 240);
+  capture.loadPixels();
 
   // Get the time in ms since 1970/01/01
   var d = new Date();
@@ -56,15 +61,18 @@ function draw() {
       //var r = abs(pixels[i] - background_pixels[i]);
       //var g = abs(pixels[i+1] - background_pixels[i + 1]);
       //var b = abs(pixels[i+2] - background_pixels[i + 2]);
-      var r = abs(capture.pixels[i] - background_pixels[i]);
-      var g = abs(capture.pixels[i+1] - background_pixels[i + 1]);
-      var b = abs(capture.pixels[i+2] - background_pixels[i + 2]);
+      var r = capture.pixels[i] - background_pixels[i];
+      var g = capture.pixels[i+1] - background_pixels[i + 1];
+      var b = capture.pixels[i+2] - background_pixels[i + 2];
+
+      var d=sqrt(r^2+g^2+b^2)
+      var p=d/sqrt((255)^2+(255)^2+(255)^2)
 
       //console.log(r, g, b);
       //pixels[0] = 0;
 
       // Count the dark pixels for each column
-      if ((r > threshold && g > threshold & b > threshold))
+      if ((p > threshold))
         counts[x]++;
       // if ((r-r_avgs > threshold && g-g_avgs > threshold & b-b_avgs > threshold))
     }
@@ -100,7 +108,12 @@ function draw() {
   ellipse(max_x, height-max_counts, 10, 10, 10);
 
   // Add counts to sliding window
-  counts_window.push([n, max_x]);
+  if (counts_window.length > 1) {
+    max_x = (max_x + counts_window[counts_window.length - 1][1])/2
+  }
+  if (max_x > 0) {
+    counts_window.push([n, max_x]);
+  }
 
   for(var i = 0; i < counts_window.length; i++) {
     fill(255, 0, 0);
