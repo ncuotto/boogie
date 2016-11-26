@@ -1,5 +1,7 @@
 function calculateBeats(movements) {
 
+	if(movements.length < 50) return;
+
 	var maxim = [];
 	var minim = [];
 
@@ -35,6 +37,9 @@ function calculateBeats(movements) {
 
 function getBpm(movements) {
 	var beats = calculateBeats(movements);
+	console.log(beats);
+	if(!beats || beats.max.length < 2) return;
+	//if(Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60000).isNaN()) debugger;
 	return Math.floor(beats.max.length/2) / ((beats.max[beats.max.length - 1] - beats.max[0])/ 60000);
 
 }
