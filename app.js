@@ -4,6 +4,7 @@ var slidingWindowSizeTime = 5000; // 5 seconds
 var BPM_avg = 0;
 var constant_BPM_time = 0;
 var song_playing = false;
+var audio;
 
 $(document).ready(function() {
 
@@ -55,10 +56,24 @@ $(document).ready(function() {
       // Held a roughly constant BPM for 3 seconds, it's time for a matching song!
       console.log('Time for a song');
       spotifyApi.getRecommendations({
-        "seed_genres": ["dance"],
+        "seed_genres": ["dance", "disco"],
         "tempo": newBpm
       }).then(function(data) {
-        console.log('Recommendations', data);
+        console.log('Recommendations', data.tracks);
+        var preview_url = null;
+        for(var i = 0; i < data.tracks.length; i++) {
+          if (data.tracks[i].preview_url != null) {
+            preview_url = data.tracks[i].preview_url;
+            break;
+          }
+        }
+        if (preview_url == null) {
+          console.log('NO SONG WITH PREVIEW URL!!!');
+        } else {
+          console.log(preview_url);
+          audio = new Audio(preview_url);
+          audio.play();
+        }
       });
     }
     
