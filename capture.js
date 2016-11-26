@@ -102,6 +102,11 @@ function draw() {
   // Add counts to sliding window
   counts_window.push([n, max_x]);
 
+  for(var i = 0; i < counts_window.length; i++) {
+    fill(255, 0, 0);
+    ellipse(i, counts_window[i][1], 5, 5, 1);
+  }
+
   // Remove counts older than 5 seconds
   for(var i = counts_window.length-1; i >= 0 ; i--){
     if(n - counts_window[i][0] > 5000) {
