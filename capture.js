@@ -35,6 +35,15 @@ function mousePressed()
     }
   }
   console.log('Reset background')
+  var h2 = $("#dance2 h2")
+  h2.fadeOut('fast', function() {
+    h2.text('Move back now');
+    h2.fadeIn('slow', function() {
+      h2.fadeOut('slow', function() {
+      });
+    });
+  });
+
 }
 
 function draw() {
