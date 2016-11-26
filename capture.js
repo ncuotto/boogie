@@ -1,3 +1,9 @@
+// p5.js movement detection and camera capture
+//
+// SETTINGS
+// Threshold (80-255):
+var threshold = 100;
+
 var capture;
 var width, height;
 
@@ -41,9 +47,20 @@ function draw() {
       var r = capture.pixels[i];
       var g = capture.pixels[i+1];
       var b = capture.pixels[i+2];
-      if (!(r > 100 && g > 100 & b > 100))
+      if (!(r > threshold && g > threshold & b > threshold))
         counts[x]++;
     }
+  }
+
+  // Moving average
+  average_counts = [];
+  for (var x = 0; x < width; x++) {
+    // HAHA, it's a hackaton, no rules!
+    average_counts[x] = 0;
+    for(var w = -10; w < 10; w++) {
+      average_counts[x] += counts[x+w];
+    }
+    average_counts[x] /= 21;
   }
 
   // Debug, plot the histogram
@@ -52,9 +69,9 @@ function draw() {
   var max_counts = 0;
   for (var x = 20; x < width-20; x++) {
     fill(255, 255, 255);
-    ellipse(x, height-counts[x], 5, 5, 1);
-    if (counts[x] > max_counts) {
-      max_counts = counts[x];
+    ellipse(x, height-average_counts[x], 5, 5, 1);
+    if (average_counts[x] > max_counts) {
+      max_counts = average_counts[x];
       max_x = x;
     }
   }
@@ -64,7 +81,7 @@ function draw() {
   ellipse(max_x, height-max_counts, 10, 10, 10);
 
   // Add counts to sliding window
-  counts_window.push([n, 9999999]);
+  counts_window.push([n, max_x]);
 
   // Remove counts older than 5 seconds
   for(var i = counts_window.length-1; i >= 0 ; i--){
