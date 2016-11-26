@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Dance Recognition</title>
-    <script src="capture.js"></script>
-    <!--<script src="lib/jquery-3.1.1.min.js"></script>
-    <script src="lib/spotify-web-api.js"></script>
-    <script src="lib/bluebird.min.js"></script>
-    <script src="lib/p5.min.js"></script>
-    <script src="lib/p5.dom.js"></script>
-    <script src="dance-processing.js"></script>
-    <script src="dance-processing.js"></script>
-    <script src="app.js"></script-->
+   
     <link rel="stylesheet" href="assets/style.css" />
 
 </head>
 <body>
-    <h1>PDance Recognition: Start Dancing</h1>
-  
-    <video playsinline autoplay muted loop>
-      <source src="https://youtu.be/zYQTKEMhYPg" type="video/webm">
-      <source src="http://thenewcode.com/assets/videos/polina.mp4" type="video/mp4"></video>
+
+    <video id="bgvid" playsinline autoplay muted loop>
+  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+<source src="assets/greenheart.webm" type="video/webm">
+</video>
+<div id="dance">
+<h1>Follow my Moves</h1>
+<a class="btn" href="index2.html">Login with Spotify</a>
+</div>
+   
+
+
+
+
 </body>
 </html>
-
-

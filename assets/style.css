@@ -1,8 +1,19 @@
 
 body {
   margin: 0;
-  background: white; 
+  background: black; 
 }
+
+div {
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 100px;
+    font-style: white;
+
+    
+}
+
 video { 
     position: fixed;
     top: 50%;
@@ -13,49 +24,67 @@ video {
     height: auto;
     z-index: -100;
     transform: translateX(-50%) translateY(-50%);
- background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
   background-size: cover;
   transition: 1s opacity;
+  -webkit-filter: contrast(200%); /* Safari */
+    filter: contrast(200%);
+  -webkit-filter: opacity(50%);
+    filter: opacity(50%);
 }
 .stopfade { 
    opacity: .5;
 }
+#dance { 
+  color: white;
+  padding: 2rem;
+  margin:2rem;
+  float: center;
+  font-size: 1.2rem;
+    vertical-align: center;
 
-
-
-body {
-  margin: 0;
-  background: #000; 
 }
-video { 
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -100;
-    transform: translateX(-50%) translateY(-50%);
- background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
-  background-size: cover;
-  transition: 1s opacity;
-}
-.stopfade { 
-   opacity: .5;
-}
-
 h1 {
   font-size: 3rem;
-  text-transform: uppercase;
   margin-top: 0;
   letter-spacing: .3rem;
+  text-align: center;
+  vertical-align: center;
+  font-family: Helvetica;
+  height:90px;
+    color: white;
+
+}
+ 
+
+.btn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #2ebd59;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+   align-content: center;
 }
 
+.btn:hover {
+  background: #28d65c;
+  text-decoration: none;
+}
+
+.container { position:relative; }
+.container video {
+    position:relative;
+
+}
+.overlay {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
 @media screen and (max-width: 500px) { 
   div{width:70%;} 
-}
-@media screen and (max-device-width: 800px) {
-  html { background: url(//demosthenes.info/assets/images/polina.jpg) #000 no-repeat center center fixed; }
-  #bgvid { display: none; }
 }
