@@ -46,9 +46,11 @@ $(document).ready(function() {
     var bpm_change = abs(BPM_avg - newBpm);
 
 		console.log(newBpm);
-    if (constant_BPM_time == 0 || bpm_change > 20 || newBpm == null) {
+    if (constant_BPM_time == 0 || bpm_change > 20 || newBpm < 15 || newBpm == null) {
       // BPM changed, reset last constant BPM time
       constant_BPM_time = n;
+      audio.stop();
+      song_playing = false;
     }
 
     if ((n - constant_BPM_time) > 5000 & !song_playing) {
