@@ -11,9 +11,6 @@ div {
   font-size: 100px;
     font-style: white;
 
-    background-image: url(/assets/grid.png);
-    background-repeat: repeat;
-    opacity: 20%;
 }
 
 video { 
@@ -38,13 +35,30 @@ video {
 }
 #dance { 
   color: white;
-  padding: 2rem;
-  margin:2rem;
   float: center;
   font-size: 1.2rem;
     vertical-align: center;
-
+  position: absolute;
+  height: 200px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -250px; 
 }
+
+#dance2 { 
+  color: white;
+  font-size: 0.5rem;
+  vertical-align: bottom;
+  text-align: bottom;
+  position: absolute;
+  height: 100px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -10px 0 0 -250px; 
+}
+
 h1 {
   font-size: 3rem;
   margin-top: 0;
@@ -54,6 +68,17 @@ h1 {
   font-family: Helvetica;
   height:90px;
     color: white;
+
+}
+h2 {
+  font-size: 2rem;
+  margin-top: 0;
+  letter-spacing: .3rem;
+    text-align: bottom;
+    vertical-align: text-bottom;
+    font-family: Helvetica;
+    color: white;
+
 
 }
  
