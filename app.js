@@ -39,14 +39,17 @@ $(document).ready(function() {
 	onMovement = function onMovement(movements) {
 
 		var newBpm = getBpm(movements);
+    if (newBpm == null) {
+      newBpm = 0;
+    }
 
     var d = new Date();
     var n = d.getTime();
     BPM_avg = (BPM_avg + newBpm) / 2;
     var bpm_change = abs(BPM_avg - newBpm);
 
-		console.log(newBpm);
-    if (constant_BPM_time == 0 || bpm_change > 20 || newBpm < 15 || newBpm == null) {
+		console.log('New BPM: ', newBpm, ' BPM average:', BPM_avg);
+    if (constant_BPM_time == 0 || bpm_change > 20 || BPM_avg < 25 || newBpm == null) {
       // BPM changed, reset last constant BPM time
       constant_BPM_time = n;
       if (audio && song_playing) {
@@ -58,10 +61,11 @@ $(document).ready(function() {
     if ((n - constant_BPM_time) > 5000 & !song_playing) {
       song_playing = true;
       // Held a roughly constant BPM for 3 seconds, it's time for a matching song!
-      console.log('Time for a song');
+      console.log('Time for a song at ', round(BPM_avg), ' BPM');
       spotifyApi.getRecommendations({
         "seed_genres": ["dance", "disco"],
-        "tempo": newBpm
+        "danceability": 1.0,
+        "tempo": round(BPM_avg)
       }).then(function(data) {
         console.log('Recommendations', data.tracks);
         var preview_url = null;
@@ -80,11 +84,7 @@ $(document).ready(function() {
         }
       });
     }
-    
-
 	}
-
-
 });
 
 function movementsListener(movements) {
