@@ -1,3 +1,5 @@
+var lastBeepPlayed = 0;
+
 function calculateBeats(movements) {
 
 	movements = blurMovements(7, movements);
@@ -69,6 +71,15 @@ function getBpm(movements) {
 	var times = [].concat(beats.min.map(function(val) {return val[0]}), beats.max.map(function(val) {return val[0]}));
 	var maxTime = Math.max.apply(null, times);
 	if(maxTime < new Date().getTime() - 2000) return 0;
+
+	// If last beat is new, play a beep
+	var last_beat_time = beats.max[beats.max.length - 1][0];
+	if (last_beat_time > lastBeepPlayed && !song_playing) {
+		var audio = new Audio('assets/beep.wav');
+		audio.play();
+		console.log("PLay BEATTT");
+		lastBeepPlayed = last_beat_time;
+	}
 
 	return 2 * beats.max.length / (slidingWindowSizeTime/ 60000);
 

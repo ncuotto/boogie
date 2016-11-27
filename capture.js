@@ -163,7 +163,6 @@ function draw() {
   movementsListener(counts_window);
 }
 
-var lastBeepPlayed = 0;
 function plotMaximums(max, min, counts_window) {
   // Display maximums
   var countsTemp = [];
@@ -178,16 +177,6 @@ function plotMaximums(max, min, counts_window) {
     ellipse(beats.max[i][0], height - height*0.25 - height*normalizedBeats[i]/2, 10, 10, 1);
   }
 
-  // If last beat is new, play a beep
-  var last_beat = beats.max[beats.max.length - 1];
-  if (last_beat != null) {
-    var beat_x = last_beat[0];
-    if (beat_x > lastBeepPlayed) {
-      var audio = new Audio('assets/beep.wav');
-      audio.play();
-      lastBeepPlayed = beat_x;
-    }
-  }
 }
 
 function normalize(vals, max, min) {
