@@ -50,8 +50,7 @@ function catchBackground()
   h2.fadeOut('fast', function() {
     h2.text('Start dancing now');
     h2.fadeIn('slow', function() {
-      h2.fadeOut('slow', function() {
-      });
+      h2.text('0 BPM');
     });
   });
 }

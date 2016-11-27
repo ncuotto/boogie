@@ -60,6 +60,10 @@ $(document).ready(function() {
 	        song_playing = false;
 	      }
 	    }
+      var h2 = $("#dance2 h2")
+      if (h2.text().slice(-3) == 'BPM') {
+        h2.text('You: ' + round(BPM_avg).toString() + ' BPM');
+      }
 
 	    if ((n - constant_BPM_time) > 5000 && !song_playing) {
 	      song_playing = true;
