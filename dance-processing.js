@@ -64,6 +64,12 @@ function discretizeMovements(bucketSize, movements) {
 function getBpm(movements) {
 	var beats = calculateBeats(movements);
 	if(!beats || beats.max.length < 2) return;
+
+	// If no max are detected in 2 seconds it returns 0 bpm
+	var times = [].concat(beats.min.map(function(val) {return val[0]}), beats.max.map(function(val) {return val[0]}));
+	var maxTime = Math.max.apply(null, times);
+	if(maxTime < new Date().getTime() - 2000) return 0;
+
 	return 2 * beats.max.length / (slidingWindowSizeTime/ 60000);
 
 }
