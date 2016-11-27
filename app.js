@@ -6,6 +6,7 @@ var constant_BPM_time = 0;
 var song_playing = false;
 var audio = null;
 var app_id = "459c7d640c8d4857a93cca27b7e7a6d1";
+var songTempo = 0;
 
 var indexCode = document.location.href.indexOf("access_token=");
 
@@ -57,12 +58,13 @@ $(document).ready(function() {
 	      constant_BPM_time = n;
 	      if (audio && song_playing) {
 	        audio.pause();
+		    songTempo = 0;
 	        song_playing = false;
 	      }
 	    }
       var h2 = $("#dance2 h2")
       if (h2.text().slice(-3) == 'BPM') {
-        h2.text('You: ' + round(BPM_avg).toString() + ' BPM');
+        h2.text('You: ' + round(BPM_avg).toString() + ' BPM - Song: ' + songTempo + ' BPM');
       }
 
 	    if ((n - constant_BPM_time) > 5000 && !song_playing) {
@@ -74,10 +76,17 @@ $(document).ready(function() {
 	        "danceability": 1.0,
 	        "tempo": round(BPM_avg)
 	      }).then(function(data) {
+
 	        console.log('Recommendations', data.tracks);
 	        var preview_url = null;
 	        for(var i = 0; i < data.tracks.length; i++) {
 	          if (data.tracks[i].preview_url != null) {
+
+		          spotifyApi.getAudioFeaturesForTrack(data.tracks[i].id).then(function(features) {
+			          songTempo = features.tempo;
+			          console.log("Song tempo: " + features.tempo);
+		          });
+
 	            preview_url = data.tracks[i].preview_url;
 	            break;
 	          }
