@@ -50,12 +50,11 @@ video {
   color: white;
   font-size: 0.5rem;
   vertical-align: bottom;
-  text-align: bottom;
+  text-align: center;
   position: absolute;
   z-index: 15;
-  top: 50%;
-  left: 50%;
-  margin: -10px 0 0 -250px; 
+  top: 70%;
+  width: 100%;
 }
 
 h1 {
@@ -70,16 +69,19 @@ h1 {
 
 }
 #defaultCanvas0{
-margin-top: 0;
-margin-left: 300px;
-margin-right:0;
-text-align: right;
+  right: 0;
+  top: 0;
+  position: absolute;
 }
 img.resize{
    max-width:10%;
    max-height:10%;
    margin-top: 20px;
     margin-left: 30px;
+    opacity: 1;
+}
+img.resize:hover {
+  opacity: 0.8;
 }
 h2 {
   font-size: 2rem;
@@ -88,6 +90,8 @@ h2 {
     text-align: bottom;
     vertical-align: bottom;
     color: white;
+  font-family: Helvetica;
+  font-weight: normal;
 }
 p{
  font-size: 1rem; 

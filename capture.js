@@ -25,6 +25,17 @@ function setup() {
 
 function mousePressed()
 {
+  var h2 = $("#dance2 h2")
+  h2.fadeOut('slow', function() {
+    h2.text('Please move away from the screen for one second');
+    h2.fadeIn('slow', function() {
+      setTimeout(catchBackground, 5000);
+    });
+  });
+}
+
+function catchBackground()
+{
   background_pixels = []
   // When pixels are defined load background
   if (background_pixels.length == 0 && capture.pixels[0] > 0) {
@@ -37,14 +48,14 @@ function mousePressed()
   console.log('Reset background')
   var h2 = $("#dance2 h2")
   h2.fadeOut('fast', function() {
-    h2.text('Move back now');
+    h2.text('Start dancing now');
     h2.fadeIn('slow', function() {
       h2.fadeOut('slow', function() {
       });
     });
   });
-
 }
+
 
 function draw() {
   background(255);
