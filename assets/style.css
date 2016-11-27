@@ -50,13 +50,12 @@ video {
   color: white;
   font-size: 0.5rem;
   vertical-align: bottom;
-  text-align: center;
+  text-align: bottom;
   position: absolute;
-  height: 100px;
-  width: 100%;
   z-index: 15;
   top: 50%;
-  /*margin: -10px 0 0 -250px; */
+  left: 50%;
+  margin: -10px 0 0 -250px; 
 }
 
 h1 {
@@ -70,13 +69,28 @@ h1 {
     color: white;
 
 }
+#defaultCanvas0{
+margin-top: 0;
+margin-left: 300px;
+margin-right:0;
+text-align: right;
+}
+img.resize{
+   max-width:10%;
+   max-height:10%;
+   margin-top: 20px;
+    margin-left: 30px;
+}
 h2 {
   font-size: 2rem;
   margin-top: 0;
   letter-spacing: .3rem;
-    vertical-align: text-bottom;
-    font-family: Helvetica;
+    text-align: bottom;
+    vertical-align: bottom;
     color: white;
+}
+p{
+ font-size: 1rem; 
 }
  
 
