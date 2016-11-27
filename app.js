@@ -5,21 +5,24 @@ var BPM_avg = 0;
 var constant_BPM_time = 0;
 var song_playing = false;
 var audio = null;
+var app_id = "459c7d640c8d4857a93cca27b7e7a6d1";
+
+var indexCode = document.location.href.indexOf("access_token=");
+
+if(!sessionStorage.getItem('spotify_token') && indexCode === -1) {
+	var uri = encodeURIComponent(document.location.protocol + "//" + document.location.host + document.location.pathname);
+	document.location="https://accounts.spotify.com/authorize?client_id="+app_id+"&response_type=token&redirect_uri=" + uri;
+}
 
 $(document).ready(function() {
 
 	var spotifyApi = new SpotifyWebApi();
-	var app_id = "459c7d640c8d4857a93cca27b7e7a6d1";
 	var bpmChangeThresholdPercentage = 10;
 
 
 	var indexCode = document.location.href.indexOf("access_token=");
 
-	if(!sessionStorage.getItem('spotify_token') && indexCode === -1) {
-		var uri = encodeURIComponent(document.location.protocol + "//" + document.location.host + document.location.pathname);
-		document.location="https://accounts.spotify.com/authorize?client_id="+app_id+"&response_type=token&redirect_uri=" + uri;
-
-	} else if(!sessionStorage.getItem('spotify_token') && indexCode !== -1) {
+	if(!sessionStorage.getItem('spotify_token') && indexCode !== -1) {
 
 		var matches = /access_token=([^&#=]*)/.exec(window.location.hash);
 		var access_token  = matches[1];
