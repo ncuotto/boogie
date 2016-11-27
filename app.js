@@ -99,3 +99,10 @@ $(document).ready(function() {
 function movementsListener(movements) {
 	if(typeof onMovement === 'function') onMovement(movements);
 }
+
+function hover_logo(element) {
+      element.setAttribute('src', 'assets/logo2.png');
+}
+function unhover_logo(element) {
+      element.setAttribute('src', 'assets/logo.png');
+}

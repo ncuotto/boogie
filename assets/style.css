@@ -80,9 +80,6 @@ img.resize{
     margin-left: 30px;
     opacity: 1;
 }
-img.resize:hover {
-  opacity: 0.8;
-}
 h2 {
   font-size: 2rem;
   margin-top: 0;
